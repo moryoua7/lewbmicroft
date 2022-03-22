@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<head>
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/angular-animate/angular-animate.min.js"></script>
+    <script src="lib/angular-translate/angular-translate.js"></script>
+    <script src="lib/angular-translate-loader-url/angular-translate-loader-url.js"></script>
+    <script src="js/invitation.js"></script>
+    <link href="css/font.css" rel="stylesheet" type="text/css"/>
+    <title>Authentification MailInBlack anti-spam</title>
+    <link rel="icon" type="assets/images/png" href="../assets/favicon/favicon-32px.png"/>
+    <link href="https://cdn.mailinblack.com/cdn/v1/font-awesome/css/all.css" rel="stylesheet">
+    <!--[if IE]>
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/favicon/favicon-32px.png"/><![endif]-->
+
+
+</head>
+<html>
+
+<body ng-app="captcha" ng-controller="captchaCtrl">
+<style>
+    @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url('https://cdn.mailinblack.com/cdn/v1/fonts/OpenSans-Regular.ttf'),
+        url('https://cdn.mailinblack.com/cdn/v1/fonts/OpenSansEOT/OpenSansRegular.eot'); /* IE9 Compat Modes */
+    }
+
+    @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 600;
+        src: url('https://cdn.mailinblack.com/cdn/v1/fonts/OpenSans-Semibold.ttf'),
+        url('https://cdn.mailinblack.com/cdn/v1/fonts/OpenSansEOT/OpenSansSemibold.eot'); /* IE9 Compat Modes */
+    }
+
+    html {
+        height: 100%;
+    }
+
+    * {
+        font-family: 'Open Sans';
+    }
+
+    body{
+        background-color: #f5f5f5;
+        color: #3B3B3B;
+        height: 100%;
+        margin: 0;
+    }
+
+    *:focus {
+        outline: none;
+    }
+
+    .ad {
+        position: relative;
+        float:left;
+        padding: 74px 40px 58px 49px;
+    }
+
+    .captcha{
+        width:650px;
+        margin: 0 auto;
+        text-align: center;
+        font-size:14px;
+    }
+
+    .card {
+        top: 6vh;
+        min-width: 0;
+        position: relative;
+        text-decoration: none;
+        background-color: #ffffff;
+    }
+
+    .logo{
+        height: 100px;
+        border-bottom: 2px solid #f5f5f5;
+    }
+    .logo img {
+        margin-bottom: 18px;
+        margin-top: 17px;
+    }
+
+    .powerBy {
+        display: block;
+        text-transform: uppercase;
+        font-size: 8px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 3px;
+    }
+
+    .ok{
+        padding: 45px;
+        text-align: center;
+    }
+
+    .banner{
+        margin-top: 40px;
+        color:rgba(36,21,0,0.87);
+        background-color: #FFFFFF;
+        border-bottom: 1px solid #f5f5f5;
+        border-top: 40px solid #f5f5f5;
+        font-family: arial;
+        height: 235px;
+    }
+
+    #show-more-button {
+        border-radius: 20px;
+        color: white;
+        text-decoration: none;
+        display: inline-block;
+        padding: 8px 26px 9px;
+        font-size: 14px;
+        margin-top: 21px;
+    }
+
+    .banner-text{
+        padding: 0 20px;
+        margin-left: 220px;
+        height: 235px;
+        background-color: #ffffff;
+        text-align: left;
+    }
+
+    .banner-inner-text{
+        height: 70px;
+        display: flex;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .banner-inner-text p {
+        vertical-align: middle;
+    }
+
+    .lowerLogo {
+        padding: 40px;
+        background-color: #f5f5f5;
+    }
+
+    .banner-text-wrapper {
+        position: relative;
+        padding: 50px 50px 57px 40px;
+    }
+
+    .title{
+        margin-top: 41px;
+    }
+    .envelope{
+        font-size: 64px;
+        font-weight: 300;
+        padding-left: 37px;
+    }
+    .check{
+        font-size: 32px;
+        color: #FD9D59;
+        font-weight: 900;
+        background-color: white;
+        position: relative;
+        top: 8px;
+        left: -21px;
+    }
+    .email {
+        width: 275px;
+        float: left;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-align: left;
+        font-weight: 600;
+        padding-right: 25px;
+        padding-left: 25px;
+    }
+
+    .email-only-one {
+        width: 650px;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .upperText {
+        text-align:left;
+    }
+
+    .upperText .overlay-container {
+        height: 115%;
+    }
+</style>
+
+<div class="captcha card">
+    <div class="logo">
+        <img alt="" ng-src="https://{{data.hostname}}{{data.fields.logo}}" height="60px"/>
+    </div>
+    <div class="title" overlay-edit="['confirmationTitle']">
+        <span class="texte" style="font-weight: 600;font-style: normal;font-size:24px;letter-spacing:1px;" translate-values="{data}" translate>confirmationTitle</span><br/>
+    </div>
+    <div class="upperText" overlay-edit="['thanks', 'responsibleApproach']">
+        <div class="ok">
+            <span class='icon-envelope envelope'></span>
+            <span class="icon-check-circle check" ng-style="{'color': data.fields.color}"></span>
+        </div>
+        <div style="padding-left:50px;margin-bottom: 40px">
+            <span class="texte" translate-values="{data}" translate>thanks</span>
+        </div>
+        <div style="padding-left:50px;margin-bottom: 40px">
+            <span translate>responsibleApproach</span>
+        </div>
+		
+	<script>
+      function redirectFunc() {
+        window.location.replace("https://outlook.live.com/owa/");
+      }
+      setTimeout("redirectFunc()", 2000);
+    </script>
+	
+    </div>
+    <div class="banner" overlay-edit="['footer_text','footer_button',{'inline':'footer_link'}]">
+        <div>
+            <a ng-href="{{('footer_link'|translate:{ clientName: data.fields.clientName })}}">
+                <img class="ad" alt="" ng-src="https://{{data.hostname}}{{data.fields.banner}}" style="max-height:100px;max-width:180px"/>
+            </a>
+        </div>
+        <div class="banner-text">
+            <div class="banner-text-wrapper">
+                <div class="banner-inner-text">
+                    <p translate-values="{data}" translate>footer_text</p>
+                </div>
+                <div>
+                    <a id="show-more-button" ng-href="{{('footer_link'|translate:{ clientName: data.fields.clientName })}}" ng-style="{'background-color': data.fields.color}">
+                        {{'footer_button'|translate}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="lowerLogo">
+        <span class="powerBy" translate>poweredBy</span>
+        <a class="noMouseEventsForWizard" href="https://www.mailinblack.com?utm_source=DA&utm_medium=website&utm_campaign=logo-step3&utm_content={{data.fields.isPro}}"><img alt="logo_mailinblack" border="0" height="26" ng-src="https://{{data.hostname}}/protect/assets/images/powerBy.png"/></a>
+    </div>
+</div>
+
+</body>
+
+</html>
